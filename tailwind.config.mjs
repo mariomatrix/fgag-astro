@@ -5,23 +5,34 @@ export default {
   theme: {
     extend: {
       colors: {
-        theme: {
-          bg: '#f8fafc',
-          surface: '#ffffff',
-          border: '#e2e8f0',
-          text: '#0f172a',
-          muted: '#64748b',
-          primary: '#2563eb',
-          'primary-hover': '#1d4ed8',
-          accent: '#4f46e5'
+        // Astroplate Exact Color Palette from theme.json
+        primary: '#121212',
+        body: '#ffffff',
+        border: '#eaeaea',
+        light: '#f6f6f6',
+        dark: '#040404',
+        text: {
+          DEFAULT: '#444444',
+          dark: '#040404',
+          light: '#717171'
+        },
+        darkmode: {
+          primary: '#ffffff',
+          body: '#1c1c1c',
+          border: '#3E3E3E',
+          light: '#222222',
+          dark: '#ffffff',
+          text: {
+            DEFAULT: '#B4AFB6',
+            dark: '#ffffff',
+            light: '#B4AFB6'
+          }
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif']
-      },
-      boxShadow: {
-        astro: '0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03)',
-        'astro-hover': '0 12px 30px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04)'
+        primary: ['Heebo', 'sans-serif'],
+        secondary: ['Signika', 'sans-serif'],
+        sans: ['Heebo', 'sans-serif']
       }
     }
   },

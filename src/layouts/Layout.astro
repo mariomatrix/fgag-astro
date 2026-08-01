@@ -46,43 +46,43 @@ const ogImage = projekt.fotografije?.[0]?.url || projekt.logo_projekta || '/slik
       }
     </script>
 
-    <!-- Google Fonts Inter -->
+    <!-- Astroplate Google Fonts (Heebo & Signika) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=Signika:wght@500;600;700&display=swap" rel="stylesheet">
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href={projekt.logo_projekta || '/favicon.svg'} />
   </head>
-  <body class="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased font-sans transition-colors duration-200">
+  <body class="min-h-screen flex flex-col bg-body text-text dark:bg-darkmode-body dark:text-darkmode-text font-primary antialiased transition-colors duration-200">
     <!-- Astroplate Sticky Navigation Header -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 border-b border-slate-200/80 dark:bg-slate-900/90 dark:border-slate-800 shadow-xs">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-body/90 dark:bg-darkmode-body/90 border-b border-border dark:border-darkmode-border shadow-xs">
+      <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         
         <!-- Brand / Logo -->
-        <a href="/" class="flex items-center gap-3 group transition">
+        <a href="/" class="flex items-center gap-3.5 group transition">
           {projekt.logo_projekta ? (
-            <img src={projekt.logo_projekta} alt={projekt.naziv} class="h-9 w-auto object-contain transition-transform group-hover:scale-105" />
+            <img src={projekt.logo_projekta} alt={projekt.naziv} class="h-10 w-auto object-contain transition-transform group-hover:scale-105" />
           ) : (
-            <div class="h-9 w-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-extrabold text-sm shadow-sm">
+            <div class="h-10 w-10 rounded-md bg-primary dark:bg-darkmode-primary text-body dark:text-darkmode-body flex items-center justify-center font-bold text-sm shadow-xs">
               {projekt.naziv.substring(0, 2).toUpperCase()}
             </div>
           )}
-          <span class="font-bold text-slate-900 dark:text-white text-base sm:text-lg tracking-tight truncate max-w-[220px] sm:max-w-[380px] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+          <span class="font-secondary font-bold text-text-dark dark:text-darkmode-text-dark text-lg sm:text-xl tracking-tight truncate max-w-[220px] sm:max-w-[420px] group-hover:opacity-80 transition-opacity">
             {projekt.naziv}
           </span>
         </a>
 
         <!-- Right Controls: Nav Tabs & Theme Toggle -->
-        <div class="flex items-center gap-2 sm:gap-3">
-          <nav class="flex items-center gap-1.5 p-1 bg-slate-100/90 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 text-sm font-medium">
+        <div class="flex items-center gap-3">
+          <nav class="flex items-center gap-1.5 p-1 bg-light dark:bg-darkmode-light rounded-lg border border-border dark:border-darkmode-border text-sm font-semibold">
             <a
               href="/"
               class:list={[
-                'px-3.5 py-1.5 rounded-lg transition-all duration-200',
+                'px-4 py-1.5 rounded transition-all duration-200',
                 activeTab === 'o-projektu'
-                  ? 'bg-slate-900 text-white dark:bg-blue-600 dark:text-white shadow-sm font-semibold'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-700/60'
+                  ? 'bg-primary text-white dark:bg-darkmode-primary dark:text-darkmode-body shadow-xs font-bold'
+                  : 'text-text-dark dark:text-darkmode-text hover:text-primary dark:hover:text-darkmode-primary'
               ]}
             >
               O projektu
@@ -90,10 +90,10 @@ const ogImage = projekt.fotografije?.[0]?.url || projekt.logo_projekta || '/slik
             <a
               href="/financije"
               class:list={[
-                'px-3.5 py-1.5 rounded-lg transition-all duration-200',
+                'px-4 py-1.5 rounded transition-all duration-200',
                 activeTab === 'financije'
-                  ? 'bg-slate-900 text-white dark:bg-blue-600 dark:text-white shadow-sm font-semibold'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/60 dark:hover:bg-slate-700/60'
+                  ? 'bg-primary text-white dark:bg-darkmode-primary dark:text-darkmode-body shadow-xs font-bold'
+                  : 'text-text-dark dark:text-darkmode-text hover:text-primary dark:hover:text-darkmode-primary'
               ]}
             >
               Financije
@@ -107,18 +107,18 @@ const ogImage = projekt.fotografije?.[0]?.url || projekt.logo_projekta || '/slik
     </header>
 
     <!-- Main Content Container -->
-    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <main class="flex-1 max-w-[1240px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
       <slot />
     </main>
 
     <!-- Astroplate Clean Footer -->
-    <footer class="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-8 text-sm text-slate-500 dark:text-slate-400">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+    <footer class="border-t border-border dark:border-darkmode-border bg-light dark:bg-darkmode-light py-8 text-sm text-text-light dark:text-darkmode-text-light">
+      <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <p class="font-semibold text-slate-800 dark:text-slate-200">{projekt.naziv}</p>
-          <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{projekt.vlasnik} &bull; {projekt.lokacija}</p>
+          <p class="font-secondary font-bold text-text-dark dark:text-darkmode-text-dark">{projekt.naziv}</p>
+          <p class="text-xs text-text-light dark:text-darkmode-text-light mt-0.5">{projekt.vlasnik} &bull; {projekt.lokacija}</p>
         </div>
-        <p class="text-xs text-slate-400 dark:text-slate-500 text-center sm:text-right">
+        <p class="text-xs text-text-light dark:text-darkmode-text-light text-center sm:text-right">
           &copy; {new Date().getFullYear()} Sva prava pridržana. Sufinancirano iz EU / javnih fondova.
         </p>
       </div>
