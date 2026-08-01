@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectHeader from '../components/ProjectHeader.astro';
+import FinanceSummary from '../components/FinanceSummary.astro';
+import FinanceTables from '../components/FinanceTables.astro';
+
+import projektiData from '../data/projekti.json';
+import type { Projekt } from '../types/project';
+
+const targetId = import.meta.env.PROJEKT_ID || projektiData.projekti[0]?.id;
+const projekt = (projektiData.projekti as Projekt[]).find((p) => p.id === targetId) || (projektiData.projekti[0] as Projekt);
+---
+
+<Layout projekt={projekt} activeTab="financije">
+  <!-- Top Header -->
+  <ProjectHeader projekt={projekt} />
+
+  <!-- Page Heading -->
+  <div class="mb-8">
+    <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Financijski Pregled i Bilanca Projekta</h2>
+    <p class="text-slate-500 text-sm mt-1">Sveobuhvatni prikaz prihoda, odobrenih sredstava i planiranih rashoda u valuti {projekt.financije.valuta}.</p>
+  </div>
+
+  <!-- Finance Summary 4 Cards -->
+  <FinanceSummary financije={projekt.financije} />
+
+  <!-- Finance Tables -->
+  <FinanceTables financije={projekt.financije} />
+</Layout>

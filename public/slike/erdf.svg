@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80" fill="none">
+  <rect width="160" height="80" rx="8" fill="#0e7490"/>
+  <text x="80" y="38" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="800" font-size="16">ERDF / EFRR</text>
+  <text x="80" y="55" text-anchor="middle" fill="#a5f3fc" font-family="system-ui, sans-serif" font-weight="600" font-size="10">Regional Development Fund</text>
+</svg>

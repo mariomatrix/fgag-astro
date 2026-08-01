@@ -1,0 +1,44 @@
+---
+import type { ClanTima } from '../types/project';
+
+interface Props {
+  tim?: ClanTima[];
+}
+
+const { tim = [] } = Astro.props;
+---
+
+<section class="mb-10">
+  <h2 class="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
+    <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+    </svg>
+    Projektni Tim
+  </h2>
+
+  {tim.length === 0 ? (
+    <p class="text-slate-400 italic text-sm">Nema unesenih članova tima.</p>
+  ) : (
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {tim.map((clan) => (
+        <div class="bg-white rounded-xl border border-slate-200/80 p-4 flex items-center gap-4 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
+          <div class="h-12 w-12 shrink-0 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white font-extrabold text-base flex items-center justify-center shadow-xs">
+            {clan.ime.charAt(0).toUpperCase()}
+          </div>
+          <div class="min-w-0 flex-1">
+            <h3 class="text-sm font-bold text-slate-900 truncate">{clan.ime}</h3>
+            <p class="text-xs text-slate-500 truncate mt-0.5">{clan.uloga}</p>
+            {clan.kontakt && (
+              <a href={`mailto:${clan.kontakt}`} class="text-xs text-blue-600 hover:underline inline-flex items-center gap-1 mt-1 truncate">
+                <svg class="h-3 w-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span class="truncate">{clan.kontakt}</span>
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</section>

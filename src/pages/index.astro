@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectHeader from '../components/ProjectHeader.astro';
+import Gallery from '../components/Gallery.astro';
+import TeamList from '../components/TeamList.astro';
+import PartnersGrid from '../components/PartnersGrid.astro';
+import EULogos from '../components/EULogos.astro';
+import ContactBox from '../components/ContactBox.astro';
+
+import projektiData from '../data/projekti.json';
+import type { Projekt } from '../types/project';
+
+const targetId = import.meta.env.PROJEKT_ID || projektiData.projekti[0]?.id;
+const projekt = (projektiData.projekti as Projekt[]).find((p) => p.id === targetId) || (projektiData.projekti[0] as Projekt);
+---
+
+<Layout projekt={projekt} activeTab="o-projektu">
+  <!-- Hero Section -->
+  <ProjectHeader projekt={projekt} />
+
+  <!-- Description Section -->
+  <section class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 mb-10 shadow-xs">
+    <h2 class="text-xl font-bold text-slate-900 mb-3 flex items-center gap-2">
+      <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+      Opis i Ciljevi Projekta
+    </h2>
+    <p class="text-slate-600 text-base leading-relaxed sm:text-lg">
+      {projekt.opis}
+    </p>
+  </section>
+
+  <!-- Photo Gallery -->
+  <Gallery fotografije={projekt.fotografije} />
+
+  <!-- Team List -->
+  <TeamList tim={projekt.tim} />
+
+  <!-- Partners Grid -->
+  <PartnersGrid partneri={projekt.partneri} />
+
+  <!-- EU Support Logos -->
+  <EULogos euLogoi={projekt.eu_logoi} />
+
+  <!-- Contact & Documents -->
+  <ContactBox kontakt={projekt.kontakt} dokumenti={projekt.dokumenti} />
+</Layout>

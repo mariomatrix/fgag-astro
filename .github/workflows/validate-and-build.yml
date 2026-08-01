@@ -1,0 +1,40 @@
+name: Validacija i Multi-Site Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate-and-build:
+    name: Validacija JSON-a i Build Svih Stranica
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repozitorija
+        uses: actions/checkout@v4
+
+      - name: Postavljanje Node.js okruženja
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Instalacija zavisnosti
+        run: npm ci
+
+      - name: Validacija projekti.json prema JSON shemi
+        run: npm run validate
+
+      - name: TypeScript provjera tipova
+        run: npm run check
+
+      - name: Orkestracija Multi-Site Builda (10 / N poddomena)
+        run: npm run build:all
+
+      - name: Pohrana dist artefakata za Coolify / Deploy
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-sites
+          path: dist-*

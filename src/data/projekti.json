@@ -1,0 +1,358 @@
+{
+  "$schema": "./projekti-schema.json",
+  "projekti": [
+    {
+      "id": "solarna-elektrana-vukovar",
+      "poddomena": "solarna-vukovar",
+      "naziv": "Solarna Elektrana Vukovar - Fotonaponska Centrala Dunav",
+      "opis": "Projekt izgradnje moderne fotonaponske solarne elektrane snage 15 MW u Gospodarskoj zoni Vukovar. Cilj projekta je održivo smanjenje emisije CO2 za preko 12.000 tona godišnje te osiguranje zelene električne energije za lokalnu zajednicu i gospodarske subjekte u Vukovarsko-srijemskoj županiji.",
+      "lokacija": "Vukovar, Hrvatska",
+      "status": "U izgradnji",
+      "pocetak": "2024-03-15",
+      "zavrsetak": "2026-11-30",
+      "vlasnik": "EnergoDunav d.o.o.",
+      "kontakt": {
+        "email": "info@energodunav.hr",
+        "telefon": "+385 32 450 100"
+      },
+      "financije": {
+        "ukupni_budzet": 12500000,
+        "valuta": "EUR",
+        "prihodi": [
+          {
+            "izvor": "Europski fond za regionalni razvoj (ERDF)",
+            "iznos": 7500000,
+            "status": "Odobreno"
+          },
+          {
+            "izvor": "Nacionalni fond za zaštitu okoliša",
+            "iznos": 2500000,
+            "status": "Ugovoreno"
+          },
+          {
+            "izvor": "Vlastita sredstva nositelja projekta",
+            "iznos": 2500000,
+            "status": "Osigurano"
+          }
+        ],
+        "rashodi": [
+          {
+            "stavka": "Nabava solarnih panela i invertera",
+            "iznos": 6200000,
+            "kategorija": "Oprema"
+          },
+          {
+            "stavka": "Građevinski i pripremni radovi terena",
+            "iznos": 3100000,
+            "kategorija": "Građevina"
+          },
+          {
+            "stavka": "Priključak na elektroenergetsku mrežu (HEP ODS)",
+            "iznos": 1800000,
+            "kategorija": "Infrastruktura"
+          },
+          {
+            "stavka": "Upravljanje projektom i tehnički nadzor",
+            "iznos": 900000,
+            "kategorija": "Usluge"
+          },
+          {
+            "stavka": "Nepredviđeni troškovi i rezervacije",
+            "iznos": 500000,
+            "kategorija": "Rezerva"
+          }
+        ]
+      },
+      "tim": [
+        {
+          "ime": "Dr. sc. Ivan Horvat",
+          "uloga": "Vodeći voditelj projekta",
+          "kontakt": "ivan.horvat@energodunav.hr"
+        },
+        {
+          "ime": "Marija Kovač, mag. ing. el.",
+          "uloga": "Glavna inženjerka za fotonaponske sustave",
+          "kontakt": "marija.kovac@energodunav.hr"
+        },
+        {
+          "ime": "Petar Babić, mag. oec.",
+          "uloga": "Voditelj financija i EU fondova",
+          "kontakt": "petar.babic@energodunav.hr"
+        }
+      ],
+      "logo_projekta": "/slike/logo-solarna-vukovar.svg",
+      "fotografije": [
+        {
+          "url": "/slike/fotografije/vukovar-lokacija.webp",
+          "alt": "Pripremljeno gradilište za solarnu elektranu Vukovar",
+          "opis": "Lokacija buduće fotonaponske centrale u Industrijskoj zoni Vukovar"
+        },
+        {
+          "url": "/slike/fotografije/paneli-montaza.webp",
+          "alt": "Montaža solarnih panela visoke učinkovitosti",
+          "opis": "Prva faza postavljanja nosivih konstrukcija i monofacijalnih panela"
+        },
+        {
+          "url": "/slike/fotografije/inverter-hala.webp",
+          "alt": "Centralna transformatorska stanica i inverteri",
+          "opis": "Inverterska postrojenja za spajanje na visokonaponsku mrežu"
+        }
+      ],
+      "eu_logoi": [
+        {
+          "url": "/slike/eu-komisija.svg",
+          "naziv_institucije": "Europska komisija",
+          "alt": "Logotip Europske komisije",
+          "web": "https://ec.europa.eu"
+        },
+        {
+          "url": "/slike/erdf.svg",
+          "naziv_institucije": "Europski fond za regionalni razvoj (ERDF)",
+          "alt": "Logotip ERDF fonda",
+          "web": "https://ec.europa.eu/regional_policy/index_en.cfm"
+        }
+      ],
+      "partneri": [
+        {
+          "naziv": "SolarTech Inženjering d.o.o.",
+          "logo": "/slike/partneri/solartech.svg",
+          "web": "https://example.com/solartech",
+          "uloga": "Glavni izvođač radova i dobavljač opreme",
+          "drzava": "Hrvatska"
+        },
+        {
+          "naziv": "Grad Vukovar",
+          "logo": "/slike/partneri/grad-vukovar.svg",
+          "web": "https://vukovar.hr",
+          "uloga": "Partner u javno-privatnom partnerstvu",
+          "drzava": "Hrvatska"
+        },
+        {
+          "naziv": "HEP - Operator distribucijskog sustava",
+          "logo": "/slike/partneri/hep-ods.svg",
+          "web": "https://hep.hr/ods",
+          "uloga": "Mrežni operator",
+          "drzava": "Hrvatska"
+        }
+      ],
+      "dokumenti": [
+        {
+          "naziv": "Sažetak studije utjecaja na okoliš (PDF)",
+          "url": "/dokumenti/studija-okolis-vukovar.pdf"
+        },
+        {
+          "naziv": "Odluka o sufinanciranju ERDF (PDF)",
+          "url": "/dokumenti/erdf-odluka-vukovar.pdf"
+        }
+      ]
+    },
+    {
+      "id": "vjetroelektrana-senj",
+      "poddomena": "vjetro-senj",
+      "naziv": "Vjetroelektrana Vratnik - Senjski Greben",
+      "opis": "Projekt održive vjetroelektrane na obroncima Vratnika iznad Senja. Sustav od 8 suvremenih vjetroturbina s ukupnom instaliranom snagom od 42 MW iskoristit će izniman potencijal bure za proizvodnju čiste energije.",
+      "lokacija": "Senj, Ličko-senjska županija, Hrvatska",
+      "status": "Odobren",
+      "pocetak": "2025-01-10",
+      "zavrsetak": "2027-06-30",
+      "vlasnik": "VjetroEnergija Adria d.o.o.",
+      "kontakt": {
+        "email": "kontakt@vjetro-senj.hr",
+        "telefon": "+385 53 881 220"
+      },
+      "financije": {
+        "ukupni_budzet": 38000000,
+        "valuta": "EUR",
+        "prihodi": [
+          {
+            "izvor": "Connecting Europe Facility (CEF Energy)",
+            "iznos": 19000000,
+            "status": "Odobreno"
+          },
+          {
+            "izvor": "Kredit Europske investicijske banke (EIB)",
+            "iznos": 14000000,
+            "status": "Ugovoreno"
+          },
+          {
+            "izvor": "Investicijski konzorcij Senj",
+            "iznos": 5000000,
+            "status": "Osigurano"
+          }
+        ],
+        "rashodi": [
+          {
+            "stavka": "Vjetroturbine i elise (8 jedinica po 5.2 MW)",
+            "iznos": 24000000,
+            "kategorija": "Oprema"
+          },
+          {
+            "stavka": "Pristupne ceste i temeljenje u kršu",
+            "iznos": 7500000,
+            "kategorija": "Građevina"
+          },
+          {
+            "stavka": "Trafostanica i priključak na prijenosnu mrežu (HOPS)",
+            "iznos": 4500000,
+            "kategorija": "Infrastruktura"
+          },
+          {
+            "stavka": "Studije zaštite ptica i šišmiša",
+            "iznos": 2000000,
+            "kategorija": "Usluge"
+          }
+        ]
+      },
+      "tim": [
+        {
+          "ime": "Ing. Luka Perić",
+          "uloga": "Tehnički direktor",
+          "kontakt": "luka.peric@vjetro-senj.hr"
+        },
+        {
+          "ime": "Ana Jurić, mag. ing. aedif.",
+          "uloga": "Voditeljica građevinskog dijela projekta",
+          "kontakt": "ana.juric@vjetro-senj.hr"
+        }
+      ],
+      "logo_projekta": "/slike/logo-vjetro-senj.svg",
+      "fotografije": [
+        {
+          "url": "/slike/fotografije/senj-lokacija.webp",
+          "alt": "Panorama lokacije Vratnik iznad Senja",
+          "opis": "Vjetroviti greben Vratnik predviđen za postavljanje turbina"
+        },
+        {
+          "url": "/slike/fotografije/vjetroturbina-model.webp",
+          "alt": "Model vjetroturbine najnovije generacije",
+          "opis": "Vizualizacija planiranih rotora promjera 162 metra"
+        }
+      ],
+      "eu_logoi": [
+        {
+          "url": "/slike/cef-energy.svg",
+          "naziv_institucije": "Connecting Europe Facility (CEF Energy)",
+          "alt": "Logotip CEF Energy programa",
+          "web": "https://cinea.ec.europa.eu/connecting-europe-facility_en"
+        }
+      ],
+      "partneri": [
+        {
+          "naziv": "Vestas Wind Systems",
+          "logo": "/slike/partneri/vestas.svg",
+          "web": "https://vestas.com",
+          "uloga": "Tehnološki partner i isporučitelj turbina",
+          "drzava": "Danska"
+        },
+        {
+          "naziv": "HOPS - Hrvatski operator prijenosnog sustava",
+          "logo": "/slike/partneri/hops.svg",
+          "web": "https://hops.hr",
+          "uloga": "Prijenosni mrežni operator",
+          "drzava": "Hrvatska"
+        }
+      ]
+    },
+    {
+      "id": "bioplinsko-postrojenje-osijek",
+      "poddomena": "bioplinsko-osijek",
+      "naziv": "Bioplinsko Postrojenje Osijek - Cirkularna Bioekonomija",
+      "opis": "Postrojenje za anaerobnu digestiju poljoprivrednih nusproizvoda i biomase u blizini Osijeka. Projekt proizvodi biometan za stlačeni prirodni plin (CNG) te visokokvalitetno organsko gnojivo za slavonske poljoprivrednike.",
+      "lokacija": "Osijek, Osječko-baranjska županija, Hrvatska",
+      "status": "U pripremi",
+      "pocetak": "2025-05-01",
+      "zavrsetak": "2026-12-15",
+      "vlasnik": "BioEnergija Slavonija d.o.o.",
+      "kontakt": {
+        "email": "ured@bioenergo-osijek.hr",
+        "telefon": "+385 31 224 550"
+      },
+      "financije": {
+        "ukupni_budzet": 8200000,
+        "valuta": "EUR",
+        "prihodi": [
+          {
+            "izvor": "Nacionalni plan oporavka i otpornosti (NPOO)",
+            "iznos": 4100000,
+            "status": "Podnesen zahtjev"
+          },
+          {
+            "izvor": "Strukturni fondovi RH",
+            "iznos": 2500000,
+            "status": "U pregovorima"
+          },
+          {
+            "izvor": "Privatni investitori",
+            "iznos": 1600000,
+            "status": "Na čekanju"
+          }
+        ],
+        "rashodi": [
+          {
+            "stavka": "Reaktori za digestiju i sustav pročišćavanja bioplina",
+            "iznos": 4200000,
+            "kategorija": "Oprema"
+          },
+          {
+            "stavka": "Izgradnja fermentatora i spremnika stajnjaka",
+            "iznos": 2400000,
+            "kategorija": "Građevina"
+          },
+          {
+            "stavka": "Kogeneracijsko postrojenje (CHP 2 MW)",
+            "iznos": 1100000,
+            "kategorija": "Infrastruktura"
+          },
+          {
+            "stavka": "Projektiranje i ishođenje građevinskih dozvola",
+            "iznos": 500000,
+            "kategorija": "Administracija"
+          }
+        ]
+      },
+      "tim": [
+        {
+          "ime": "Prof. dr. sc. Tomislav Radić",
+          "uloga": "Konzultant za biotehnologiju",
+          "kontakt": "tomislav.radic@bioenergo-osijek.hr"
+        },
+        {
+          "ime": "Elena Zorić, mag. oec.",
+          "uloga": "Koordinatorica za EU projekte",
+          "kontakt": "elena.zoric@bioenergo-osijek.hr"
+        }
+      ],
+      "logo_projekta": "/slike/logo-bioplinsko-osijek.svg",
+      "fotografije": [
+        {
+          "url": "/slike/fotografije/osijek-lokacija.webp",
+          "alt": "Zemljište u Poljoprivrednoj zoni Osijek",
+          "opis": "Lokacija budućeg bioplinskog postrojenja"
+        }
+      ],
+      "eu_logoi": [
+        {
+          "url": "/slike/eu-komisija.svg",
+          "naziv_institucije": "Europska unija - NextGenerationEU",
+          "alt": "Logotip NextGenerationEU",
+          "web": "https://ec.europa.eu/info/strategy/recovery-plan-for-europe_hr"
+        }
+      ],
+      "partneri": [
+        {
+          "naziv": "Poljoprivredni fakultet u Osijeku",
+          "web": "https://fazos.hr",
+          "uloga": "Znanstveno-istraživački partner",
+          "drzava": "Hrvatska"
+        },
+        {
+          "naziv": "Žito Grupa",
+          "logo": "/slike/partneri/zito.svg",
+          "web": "https://zito.hr",
+          "uloga": "Dobavljač poljoprivredne biomase",
+          "drzava": "Hrvatska"
+        }
+      ]
+    }
+  ]
+}

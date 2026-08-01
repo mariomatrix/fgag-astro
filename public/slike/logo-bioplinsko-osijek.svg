@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" fill="none">
+  <path d="M30 12C20 22 15 32 30 48C45 32 40 22 30 12Z" fill="#34d399"/>
+  <text x="65" y="32" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="800" font-size="16">BIOPLIN</text>
+  <text x="65" y="48" fill="#34d399" font-family="system-ui, sans-serif" font-weight="600" font-size="13">OSIJEK</text>
+</svg>

@@ -1,0 +1,82 @@
+---
+import type { Projekt } from '../types/project';
+
+interface Props {
+  projekt: Projekt;
+}
+
+const { projekt } = Astro.props;
+
+const statusBadgeStyles: Record<string, string> = {
+  'U izgradnji': 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+  'U pripremi': 'bg-amber-50 text-amber-700 border-amber-200/80',
+  'Završen': 'bg-blue-50 text-blue-700 border-blue-200/80',
+  'Stagnira': 'bg-rose-50 text-rose-700 border-rose-200/80',
+  'Odobren': 'bg-teal-50 text-teal-700 border-teal-200/80',
+  'Podnesen zahtjev': 'bg-yellow-50 text-yellow-800 border-yellow-200/80'
+};
+
+const badgeStyle = statusBadgeStyles[projekt.status] || 'bg-slate-100 text-slate-700 border-slate-200';
+
+const formatDate = (dateStr: string) => {
+  if (!dateStr) return '';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('hr-HR', { month: 'short', year: 'numeric' });
+};
+---
+
+<section class="bg-white rounded-2xl border border-slate-200/80 p-6 sm:p-8 shadow-sm mb-8 relative overflow-hidden">
+  <!-- Accent top line -->
+  <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600"></div>
+
+  <!-- Status Badge -->
+  <div class="mb-4">
+    <span class:list={['inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold border', badgeStyle]}>
+      <span class="h-2 w-2 rounded-full bg-current"></span>
+      {projekt.status}
+    </span>
+  </div>
+
+  <!-- Main Hero Block -->
+  <div class="flex flex-col sm:flex-row sm:items-start gap-5 mb-6">
+    {projekt.logo_projekta && (
+      <div class="shrink-0 h-20 w-20 rounded-xl bg-slate-50 border border-slate-200 p-2 flex items-center justify-center">
+        <img src={projekt.logo_projekta} alt={`Logo - ${projekt.naziv}`} class="max-h-full max-w-full object-contain" />
+      </div>
+    )}
+
+    <div class="space-y-1">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-snug">
+        {projekt.naziv}
+      </h1>
+      <p class="text-base font-medium text-slate-500">
+        Nositelj projekta: <span class="text-slate-800 font-semibold">{projekt.vlasnik}</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- Meta Chips -->
+  <div class="flex flex-wrap gap-2.5 pt-4 border-t border-slate-100 text-xs font-medium text-slate-600">
+    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200">
+      <svg class="h-4 w-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+      </svg>
+      <span>{projekt.lokacija}</span>
+    </div>
+
+    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200">
+      <svg class="h-4 w-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+      </svg>
+      <span>{formatDate(projekt.pocetak)} &ndash; {formatDate(projekt.zavrsetak)}</span>
+    </div>
+
+    <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200">
+      <svg class="h-4 w-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0a2 2 0 01-2-2V5a2 2 0 012-2h4a2 2 0 012 2v14a2 2 0 01-2 2z"></path>
+      </svg>
+      <span>Poddomena: <code class="text-slate-900 font-mono font-semibold">{projekt.poddomena}</code></span>
+    </div>
+  </div>
+</section>

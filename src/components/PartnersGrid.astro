@@ -1,0 +1,68 @@
+---
+import type { Partner } from '../types/project';
+
+interface Props {
+  partneri?: Partner[];
+}
+
+const { partneri = [] } = Astro.props;
+
+const getInitials = (name: string) => {
+  return name
+    .split(' ')
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase();
+};
+---
+
+<section class="mb-10">
+  <h2 class="text-xl font-bold text-slate-900 mb-5 flex items-center gap-2">
+    <svg class="h-5 w-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5-3.512M9 20H4v-2a3 3 0 015-3.512M16 11a4 4 0 11-8 0 4 4 0 018 0zM12 14a4 4 0 00-4 4v2h8v-2a4 4 0 00-4-4z"></path>
+    </svg>
+    Partneri na Projektu
+  </h2>
+
+  {partneri.length === 0 ? (
+    <p class="text-slate-400 italic text-sm">Nema navedenih partnera.</p>
+  ) : (
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {partneri.map((partner) => (
+        <div class="bg-white rounded-xl border border-slate-200/80 p-4 flex items-center gap-4 shadow-xs hover:border-slate-300 hover:shadow-sm transition-all">
+          <div class="h-14 w-14 shrink-0 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-center p-2">
+            {partner.logo ? (
+              <img src={partner.logo} alt={`Logo ${partner.naziv}`} class="max-h-full max-w-full object-contain" />
+            ) : (
+              <div class="h-full w-full rounded bg-indigo-50 text-indigo-700 font-extrabold text-sm flex items-center justify-center">
+                {getInitials(partner.naziv)}
+              </div>
+            )}
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <h3 class="text-sm font-bold text-slate-900 truncate">
+              {partner.web ? (
+                <a href={partner.web} target="_blank" rel="noopener noreferrer" class="hover:text-indigo-600 inline-flex items-center gap-1">
+                  <span class="truncate">{partner.naziv}</span>
+                  <svg class="h-3 w-3 shrink-0 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  </svg>
+                </a>
+              ) : (
+                partner.naziv
+              )}
+            </h3>
+            <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">{partner.uloga}</p>
+            {partner.drzava && (
+              <span class="inline-block mt-1 text-[11px] font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+                {partner.drzava}
+              </span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  )}
+</section>

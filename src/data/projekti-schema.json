@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "$schema": { "type": "string" },
+    "projekti": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/projekt" },
+      "minItems": 1
+    }
+  },
+  "required": ["projekti"],
+  "additionalProperties": true,
+  "definitions": {
+    "projekt": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "poddomena": { "type": "string", "minLength": 1 },
+        "naziv": { "type": "string", "minLength": 3 },
+        "opis": { "type": "string", "minLength": 20, "maxLength": 5000 },
+        "lokacija": { "type": "string", "minLength": 2 },
+        "status": {
+          "type": "string",
+          "enum": ["U pripremi", "U izgradnji", "Završen", "Stagnira", "Odobren", "Podnesen zahtjev"]
+        },
+        "pocetak": { "type": "string" },
+        "zavrsetak": { "type": "string" },
+        "vlasnik": { "type": "string" },
+        "kontakt": {
+          "type": "object",
+          "properties": {
+            "email": { "type": "string", "format": "email" },
+            "telefon": { "type": "string" }
+          },
+          "required": ["email", "telefon"]
+        },
+        "financije": {
+          "type": "object",
+          "properties": {
+            "ukupni_budzet": { "type": "number", "minimum": 0 },
+            "valuta": { "type": "string", "enum": ["EUR", "USD", "HRK", "GBP", "CHF"] },
+            "prihodi": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "izvor": { "type": "string" },
+                  "iznos": { "type": "number", "minimum": 0 },
+                  "status": { "type": "string" }
+                },
+                "required": ["izvor", "iznos", "status"]
+              }
+            },
+            "rashodi": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "stavka": { "type": "string" },
+                  "iznos": { "type": "number", "minimum": 0 },
+                  "kategorija": { "type": "string" }
+                },
+                "required": ["stavka", "iznos", "kategorija"]
+              }
+            }
+          },
+          "required": ["ukupni_budzet", "valuta", "prihodi", "rashodi"]
+        },
+        "tim": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "ime": { "type": "string" },
+              "uloga": { "type": "string" },
+              "kontakt": { "type": "string" }
+            },
+            "required": ["ime", "uloga", "kontakt"]
+          }
+        },
+        "logo_projekta": { "type": "string" },
+        "fotografije": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "alt": { "type": "string", "minLength": 5 },
+              "opis": { "type": "string" }
+            },
+            "required": ["url", "alt"]
+          },
+          "minItems": 1
+        },
+        "eu_logoi": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "url": { "type": "string" },
+              "naziv_institucije": { "type": "string" },
+              "alt": { "type": "string" },
+              "web": { "type": "string" }
+            },
+            "required": ["url", "naziv_institucije", "alt"]
+          }
+        },
+        "partneri": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "naziv": { "type": "string" },
+              "logo": { "type": "string" },
+              "web": { "type": "string" },
+              "uloga": { "type": "string" },
+              "drzava": { "type": "string" }
+            },
+            "required": ["naziv", "uloga"]
+          }
+        },
+        "dokumenti": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "naziv": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "required": ["naziv", "url"]
+          }
+        }
+      },
+      "required": [
+        "id",
+        "poddomena",
+        "naziv",
+        "opis",
+        "lokacija",
+        "status",
+        "pocetak",
+        "zavrsetak",
+        "vlasnik",
+        "kontakt",
+        "financije",
+        "tim",
+        "fotografije"
+      ]
+    }
+  }
+}

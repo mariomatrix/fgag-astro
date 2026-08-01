@@ -1,0 +1,291 @@
+
+# TEHNIČKA SPECIFIKACIJA: Astro + projekti.json Multi-Site Generator
+
+## 1. CILJ
+Izraditi Astro-based statički generator koji iz jednog JSON izvora (`projekti.json`) i jednog template seta generira 10 neovisnih web stranica na 10 poddomena. Svaki site prikazuje opis projekta, financijski bal, galeriju fotografija, logotip projekta, logotipe EU institucija i kartice partnera.
+
+---
+
+## 2. TEHNOLOŠKI STACK
+- **Framework:** Astro 4.x (static site generation)
+- **Stilovi:** CSS unutar `.astro` komponenti (scoped `<style>`), bez vanjskog CSS frameworka
+- **Jezik:** TypeScript (strogo tipizirano)
+- **Validacija:** `ajv` za JSON schema validaciju
+- **Build orkestracija:** Node.js skripta koja pokreće 10 zasebnih Astro buildova
+- **Hosting:** Netlify / Cloudflare Pages (deploy 10 foldera na 10 poddomena)
+
+---
+
+## 3. FOLDER STRUKTURA PROJEKTA
+
+```
+projekti-sites/
+├── src/
+│   ├── data/
+│   │   ├── projekti.json              # JEDINI IZVOR PODATAKA
+│   │   └── projekti-schema.json       # JSON Schema za validaciju
+│   ├── layouts/
+│   │   └── Layout.astro               # Glavni layout (HTML boilerplate, meta, nav, footer)
+│   ├── pages/
+│   │   ├── index.astro                # Stranica "O projektu" (opis, galerija, partneri, EU logoi, tim)
+│   │   └── financije.astro            # Stranica "Financijski bal" (tablice prihoda/rashoda, summary kartice)
+│   ├── components/
+│   │   ├── ProjectHeader.astro        # Hero sekcija: logo + naziv + status
+│   │   ├── Gallery.astro              # Grid fotografija s figure/figcaption
+│   │   ├── PartnersGrid.astro         # Kartice partnera (logo, naziv, uloga, država, link)
+│   │   ├── EULogos.astro              # Sekcija "Podrška Europske unije"
+│   │   ├── FinanceSummary.astro       # 4 summary kartice (budžet, prikupljeno, rashodi, rezerva)
+│   │   ├── FinanceTables.astro        # Tablice prihoda i rashoda
+│   │   ├── TeamList.astro             # Lista članova tima
+│   │   └── ContactBox.astro           # Kontakt podaci
+│   └── types/
+│       └── project.ts                 # TypeScript interface za projekt
+├── public/                            # Statički asseti (kopiraju se u root builda)
+│   └── slike/
+│       ├── logo-projekta.svg          # Logo konkretnog projekta (po projektu)
+│       ├── eu-komisija.svg            # EU logotipovi (dijeljeni)
+│       ├── erdf.svg
+│       ├── cef-energy.svg
+│       ├── fotografije/               # Fotografije po projektu
+│       │   ├── vukovar-lokacija.webp
+│       │   ├── paneli-montaza.webp
+│       │   └── inverter-hala.webp
+│       └── partneri/                  # Logotipi partnera
+│           ├── solartech.svg
+│           ├── grad-vukovar.svg
+│           └── hep-ods.svg
+├── scripts/
+│   ├── validate.js                    # Validacija projekti.json prema schema
+│   └── build-all.js                   # Orkestracija: 10 buildova + 10 dist foldera
+├── astro.config.mjs
+├── package.json
+├── tsconfig.json
+└── .github/
+    └── workflows/
+        └── validate-and-build.yml     # GitHub Actions: validacija + build
+```
+
+---
+
+## 4. STRUKTURA `projekti.json`
+
+JEDNA datoteka sadrži podatke za SVIH 10 projekata. Astro build učitava samo jedan projekt prema env varijabli `PROJEKT_ID`.
+
+### 4.1 Root objekt
+```json
+{
+  "$schema": "./src/data/projekti-schema.json",
+  "projekti": [ ... ]
+}
+```
+
+### 4.2 Struktura jednog projekta
+
+```typescript
+interface Projekt {
+  id: string;                    // slug, npr. "solarna-elektrana-vukovar"
+  poddomena: string;             // slug, npr. "solarna-vukovar"
+  naziv: string;                 // puni naziv
+  opis: string;                  // 20–2000 znakova
+  lokacija: string;
+  status: "U pripremi" | "U izgradnji" | "Završen" | "Stagnira" | "Odobren" | "Podnesen zahtjev";
+  pocetak: string;               // ISO date: YYYY-MM-DD
+  zavrsetak: string;             // ISO date: YYYY-MM-DD
+  vlasnik: string;
+  kontakt: {
+    email: string;               // validan email
+    telefon: string;             // +385 99 123 4567
+  };
+  financije: {
+    ukupni_budzet: number;       // > 0
+    valuta: "EUR" | "USD" | "HRK" | "GBP" | "CHF";
+    prihodi: Array<{
+      izvor: string;
+      iznos: number;             // > 0
+      status: "Odobreno" | "Ugovoreno" | "Osigurano" | "Podnesen zahtjev" | "U pregovorima" | "Odbijeno" | "Na čekanju";
+    }>;
+    rashodi: Array<{
+      stavka: string;
+      iznos: number;             // > 0
+      kategorija: "Oprema" | "Građevina" | "Infrastruktura" | "Administracija" | "Usluge" | "Rezerva" | "Marketing" | "Ostalo";
+    }>;
+  };
+  tim: Array<{
+    ime: string;
+    uloga: string;
+    kontakt: string;             // email
+  }>;
+  dokumenti: Array<{
+    naziv: string;
+    url: string;                 // relativni URL, počinje s /
+  }>;
+  logo_projekta: string;         // npr. "/slike/logo-projekta.svg"
+  fotografije: Array<{
+    url: string;                 // npr. "/slike/fotografije/vukovar-lokacija.webp"
+    alt: string;                 // pristupačnost, 5–150 znakova
+    opis?: string;               // caption ispod slike, max 200 znakova
+  }>;
+  eu_logoi: Array<{
+    url: string;                 // npr. "/slike/eu-komisija.svg"
+    naziv_institucije: string;   // puni naziv
+    alt: string;
+    web?: string;                // URL do službene stranice
+  }>;
+  partneri: Array<{
+    naziv: string;
+    logo?: string;               // npr. "/slike/partneri/solartech.svg"
+    web?: string;
+    uloga: string;
+    drzava?: string;
+  }>;
+}
+```
+
+---
+
+## 5. ASTRIOVE STRANICE I KOMPONENTE
+
+### 5.1 Layout (`src/layouts/Layout.astro`)
+- `<!DOCTYPE html>` s lang="hr"
+- `<head>`: meta charset, viewport, title (iz projekta), favicon
+- `<body>`: slot za sadržaj + footer s copyrightom
+- Responzivan dizajn: max-width 1100px, padding 1rem, mobile-first
+- Font: system-ui stack (bez vanjskih fontova)
+
+### 5.2 Index stranica (`src/pages/index.astro`)
+Učitava `PROJEKT_ID` iz `import.meta.env.PROJEKT_ID`, pronalazi projekt u `projekti.json`, renderira:
+
+1. **ProjectHeader** — logo projekta (ako postoji), naziv, status badge (zelena/narančasta/siva ovisno o statusu)
+2. **Opis projekta** — paragraf opisa + metapodaci (lokacija, vlasnik, datumi)
+3. **Gallery** — CSS grid `repeat(auto-fit, minmax(300px, 1fr))`, slike s `object-fit: cover`, figure + figcaption
+4. **TeamList** — lista članova s imenom, ulogom i mailto linkom
+5. **PartnersGrid** — grid kartica. Ako partner ima logo, prikaži sliku. Ako nema, prikaži inicijale u krugu. Link na web ako postoji.
+6. **EULogos** — sekcija "Ovaj projekt sufinancira Europska unija", logotipi u horizontalnom flex wrap layoutu, svaki logo je link na `web`
+7. **ContactBox** — email i telefon
+
+### 5.3 Financije stranica (`src/pages/financije.astro`)
+1. **FinanceSummary** — 4 kartice u gridu:
+   - Ukupni budžet
+   - Prikupljeno (zbroj prihoda)
+   - Planirani rashodi (zbroj rashoda)
+   - Rezerva / Ostatak (budžet − rashodi)
+   Format brojeva: `toLocaleString('hr-HR')` + valuta
+2. **FinanceTables** — dvije tablice:
+   - "Izvori financiranja": stupci Izvor | Iznos | Status (status ima color-coded badge)
+   - "Planirani rashodi": stupci Stavka | Kategorija | Iznos
+   Tablice su responzivne (horizontalni scroll na mobilnom)
+
+### 5.4 Navigacija
+- Na vrhu obje stranice: horizontalna navigacija s linkovima "O projektu" (`/`) i "Financije" (`/financije`)
+- Aktivni link ima underline/bold stil
+
+---
+
+## 6. BUILD ORKESTRACIJA (`scripts/build-all.js`)
+
+```javascript
+// Pseudokod:
+for each projekt in projekti.json:
+    1. postavi env PROJEKT_ID = projekt.id
+    2. pokreni `astro build`
+    3. preimenuj `dist/` u `dist-{projekt.poddomena}/`
+    4. ispiši "✅ Build gotov: {projekt.naziv} → dist-{projekt.poddomena}/"
+```
+
+- Svaki build generira SAMO stranice za taj jedan projekt
+- `public/` se kopira u svaki build (slike su dostupne)
+- Rezultat: 10 foldera `dist-solarna-vukovar/`, `dist-vjetro-senj/`, itd.
+
+---
+
+## 7. VALIDACIJA (`scripts/validate.js`)
+
+- Koristi `ajv` (allErrors: true)
+- Učitava `projekti-schema.json` i `projekti.json`
+- Ako postoje greške, ispisuje svaku s putanjom (`instancePath`) i porukom
+- Exit code 1 ako nije validno, 0 ako je validno
+- `npm run validate` mora biti obavezan korak prije `npm run build:all`
+
+---
+
+## 8. MEDIJI I ASSETI
+
+### 8.1 Smještaj
+Sve slike i logotipi moraju biti u `public/` folderu. Astro kopira `public/` u root builda.
+
+### 8.2 Preporučeni formati i veličine
+| Asset | Format | Dimenzije | Napomena |
+|-------|--------|-----------|----------|
+| Logo projekta | SVG (preferirano) ili PNG | 400×200 px | Transparentna pozadina |
+| Fotografije | WEBP ili JPEG | 1200×800 px | Kompresirano, max 200KB po slici |
+| EU logotipi | SVG | 160×80 px | Službeni logotipi s ec.europa.eu |
+| Logo partnera | SVG ili PNG | 200×100 px | Sivi/monokrom za ujednačenost |
+
+### 8.3 Pristupačnost
+- SVAKA slika MORA imati `alt` tekst iz JSON-a
+- Fotografije koriste `<figure>` + `<figcaption>` ako postoji `opis`
+- EU logotipi su okruženi `<a>` linkom ako postoji `web`
+
+---
+
+## 9. TYPE SAFETY
+
+U `src/types/project.ts` definirati sve TypeScript interface-e koje odgovaraju JSON strukturi. Astro stranice koriste te tipove za type-safe pristup podacima.
+
+---
+
+## 10. CI/CD (GitHub Actions)
+
+Workflow `.github/workflows/validate-and-build.yml`:
+1. Checkout repozitorija
+2. Setup Node.js 20
+3. `npm ci`
+4. `npm run validate` — ako padne, prekini workflow
+5. `npm run build:all` — generira 10 dist foldera
+6. (Opcionalno) Deploy svakog dist foldera na odgovarajuću poddomenu preko Netlify CLI-a
+
+---
+
+## 11. KORISNIČKI WORKFLOW (kako se koristi)
+
+1. Korisnik (urednik) ažurira `projekti.json` — doda novi projekt ili promijeni postojeći
+2. Korisnik stavi nove slike u `public/slike/...` (fotografije, logotipi partnera, EU logotipi)
+3. Pokrene `npm run validate` — provjeri ispravnost JSON-a
+4. Pokrene `npm run build:all` — generira 10 siteova
+5. Deploya 10 `dist-*/` foldera na 10 poddomena
+
+---
+
+## 12. DODATNI ZAHTJEVI
+
+- **SEO:** Svaka stranica ima `<title>` i `<meta name="description">` iz projekta
+- **Open Graph:** `og:title`, `og:description`, `og:image` (prva fotografija ako postoji)
+- **Responzivnost:** Mobile-first, breakpoint na 768px za desktop layout
+- **Boje:** Status badgeovi: U izgradnji = zelena, U pripremi = narančasta, Završen = plava, Stagnira = crvena, Odobren = tamnozelena, Podnesen zahtjev = žuta
+- **Jezik:** Svi tekstovi su na hrvatskom, osim naziva EU institucija koje ostaju u originalu
+- **Bez JavaScript frameworka:** Astro generira čisti HTML/CSS. Nema Reacta, Vuea ni Sveltea u buildu.
+
+---
+
+## 13. PRIMJER KOMANDI
+
+```bash
+# Instalacija
+npm install
+
+# Validacija JSON-a
+npm run validate
+
+# Build jednog projekta (za razvoj)
+PROJEKT_ID=solarna-elektrana-vukovar npm run build
+
+# Build svih 10 projekata
+npm run build:all
+
+# Razvojni server za jedan projekt
+PROJEKT_ID=solarna-elektrana-vukovar npm run dev
+```
+
+---
+
+IZLAZ: Cijeli Astro projekt spreman za pokretanje, uključujući sve `.astro` komponente, `.ts` tipove, `.js` skripte, JSON schema, `astro.config.mjs`, `package.json`, i primjer `projekti.json` s 2 projekta.

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 80" fill="none">
+  <rect width="160" height="80" rx="8" fill="#003399"/>
+  <circle cx="40" cy="40" r="22" stroke="#ffcc00" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="75" y="38" fill="#ffffff" font-family="system-ui, sans-serif" font-weight="700" font-size="12">EUROPEAN</text>
+  <text x="75" y="52" fill="#ffcc00" font-family="system-ui, sans-serif" font-weight="700" font-size="12">COMMISSION</text>
+</svg>

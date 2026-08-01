@@ -1,0 +1,90 @@
+---
+import type { Financije } from '../types/project';
+
+interface Props {
+  financije: Financije;
+}
+
+const { financije } = Astro.props;
+
+const formatValuta = (iznos: number, valuta: string = 'EUR') => {
+  return new Intl.NumberFormat('hr-HR', {
+    style: 'currency',
+    currency: valuta,
+    maximumFractionDigits: 0
+  }).format(iznos);
+};
+
+const ukupniBudzet = financije.ukupni_budzet || 0;
+const ukupniPrihodi = (financije.prihodi || []).reduce((acc, item) => acc + (item.iznos || 0), 0);
+const ukupniRashodi = (financije.rashodi || []).reduce((acc, item) => acc + (item.iznos || 0), 0);
+const saldo = ukupniPrihodi - ukupniRashodi;
+---
+
+<section class="mb-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <!-- Ukupni Budžet -->
+    <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:shadow-sm transition-shadow">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ukupni Budžet</span>
+        <div class="h-9 w-9 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="text-2xl font-extrabold text-slate-900 tracking-tight">
+        {formatValuta(ukupniBudzet, financije.valuta)}
+      </div>
+      <p class="text-xs text-slate-400 mt-1">Ukupna planirana investicija</p>
+    </div>
+
+    <!-- Ukupno Prihodi -->
+    <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:shadow-sm transition-shadow">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Prihodi</span>
+        <div class="h-9 w-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="text-2xl font-extrabold text-emerald-600 tracking-tight">
+        {formatValuta(ukupniPrihodi, financije.valuta)}
+      </div>
+      <p class="text-xs text-slate-400 mt-1">Definirani izvori financiranja</p>
+    </div>
+
+    <!-- Planirani Rashodi -->
+    <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:shadow-sm transition-shadow">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Rashodi</span>
+        <div class="h-9 w-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m0 0V9m0 8l-8-8-4 4-6-6"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="text-2xl font-extrabold text-amber-600 tracking-tight">
+        {formatValuta(ukupniRashodi, financije.valuta)}
+      </div>
+      <p class="text-xs text-slate-400 mt-1">Predviđene stavke troškova</p>
+    </div>
+
+    <!-- Saldo / Razlika -->
+    <div class="bg-white rounded-xl border border-slate-200/80 p-5 shadow-xs hover:shadow-sm transition-shadow">
+      <div class="flex items-center justify-between mb-3">
+        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Saldo</span>
+        <div class="h-9 w-9 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+          </svg>
+        </div>
+      </div>
+      <div class:list={['text-2xl font-extrabold tracking-tight', saldo < 0 ? 'text-rose-600' : 'text-purple-600']}>
+        {formatValuta(saldo, financije.valuta)}
+      </div>
+      <p class="text-xs text-slate-400 mt-1">Razlika prihoda i rashoda</p>
+    </div>
+  </div>
+</section>
