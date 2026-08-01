@@ -2,7 +2,7 @@
   "name": "projekti-sites",
   "type": "module",
   "version": "1.0.0",
-  "description": "Multi-site generator za projekte temeljen na Astro 4.x frameworku i JSON izvoru",
+  "description": "Multi-site generator za projekte temeljen na Astro 7.x frameworku i JSON izvoru",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "^6.0.2",
-    "astro": "^4.16.18",
+    "astro": "^7.1.6",
     "tailwindcss": "^3.4.19"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.10",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "typescript": "^5.6.3"
